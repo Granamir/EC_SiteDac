@@ -1,0 +1,29 @@
+[
+  {
+    "mintAddress": "GT24XW4QvPxm1Dj63kYQMVa2nwwReLtcWXyHzA6G4yRw",
+    "blockTime": "13/11/2024",
+    "mintAmount": "6.767",
+    "TotalAtlasTransferred": "34459,62180848",
+    "UltimaCompra": "5,02100000",
+    "UltimaVenda": "5,13000000",
+    "PreçoMedio": "5,07550000"
+  },
+  {
+    "mintAddress": "tooLsNYLiVqzg8o4m3L2Uetbn62mvMWRqkog6PQeYKL",
+    "blockTime": "13/11/2024",
+    "mintAmount": "1.167.726",
+    "TotalAtlasTransferred": "1753,20453070",
+    "UltimaCompra": "0,00150010",
+    "UltimaVenda": "0,00164200",
+    "PreçoMedio": "0,00157105"
+  },
+  {
+    "mintAddress": "PTCLSWbwZ3mqZqHAporphY2ofio8acsastaHfoP87Dc",
+    "blockTime": "13/11/2024",
+    "mintAmount": "400.612",
+    "TotalAtlasTransferred": "17078,82825888",
+    "UltimaCompra": "0,03410002",
+    "UltimaVenda": "0,04400000",
+    "PreçoMedio": "0,03905001"
+  }
+]

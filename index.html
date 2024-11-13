@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Item Star Atlas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0e0e10;
+            color: #ffffff;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #ffffff;
+        }
+
+        .container {
+            margin: 0 auto;
+            padding: 20px;
+            max-width: 1200px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #25252a;
+        }
+
+        th {
+            background-color: #191820;
+            color: #ffffff;
+        }
+
+        tr:nth-child(even) {
+            background-color: #131319;
+        }
+
+        tr:nth-child(odd) {
+            background-color: #18161e;
+        }
+
+        .group-header {
+            background-color: #191820;
+            color: #ffffff;
+            font-weight: bold;
+            text-align: left;
+        }
+
+        img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+        }
+
+        .gold-text {
+            font-weight: bold;
+            color: #ffd700; /* Cor de ouro */
+        }
+    </style>
+</head>
+<body>
+    <h1>LISTA DE ITEM STAR ATLAS</h1>
+    <div class="container">
+        <table id="itemTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Última Compra</th>
+                    <th>Última Venda</th>
+                    <th>Preço Médio</th>
+                    <th>Categoria</th>
+                    <th>Classe</th>
+                    <th>Imagem</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Dados serão carregados dinamicamente -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        async function fetchAndDisplayData() {
+            try {
+                const response = await fetch('Related_Data.json');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+
+                const tableBody = document.getElementById('itemTable').querySelector('tbody');
+                tableBody.innerHTML = '';
+
+                // Agrupa os dados por "category"
+                const groupedData = data.reduce((groups, item) => {
+                    const category = item.category || 'Desconhecido';
+                    if (!groups[category]) {
+                        groups[category] = [];
+                    }
+                    groups[category].push(item);
+                    return groups;
+                }, {});
+
+                // Renderiza os dados agrupados
+                for (const [category, items] of Object.entries(groupedData)) {
+                    // Adiciona um cabeçalho para o grupo
+                    const groupRow = document.createElement('tr');
+                    groupRow.classList.add('group-header');
+                    const groupCell = document.createElement('td');
+                    groupCell.colSpan = 7; // Mesma quantidade de colunas da tabela
+                    groupCell.textContent = category;
+                    groupRow.appendChild(groupCell);
+                    tableBody.appendChild(groupRow);
+
+                    // Adiciona os itens do grupo
+                    items.forEach(item => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${item.name || '-'}</td>
+                            <td>${item.UltimaCompra || '-'}</td>
+                            <td>${item.UltimaVenda || '-'}</td>
+                            <td><span class="gold-text">${item.PreçoMedio || '-'}</span></td>
+                            <td>${item.category || '-'}</td>
+                            <td>${item.class || '-'}</td>
+                            <td><img src="${item.image || ''}" alt="${item.name || 'Sem imagem'}"></td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao carregar os dados:', error);
+            }
+        }
+
+        // Atualiza os dados automaticamente a cada 10 segundos
+        setInterval(fetchAndDisplayData, 10000);
+        fetchAndDisplayData();
+    </script>
+</body>
+</html>

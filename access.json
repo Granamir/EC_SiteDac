@@ -1,0 +1,178 @@
+[
+  {
+    "symbol": "BGAT",
+    "mint": "7GBfZq24jHXmp6bQ988yhgV2bQiZjZx7Fj1E2xSg8ytU",
+    "name": "Atlas Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "uncommon",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGAT.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "BGCPN",
+    "mint": "J9ZfRgF8hDbTgCHZ5VFR4V3vCecww4MJ9jmeBPd5gt3D",
+    "name": "Captain's Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "legendary",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGCPN.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "BGEXE",
+    "mint": "3QGcfPwr3GhfeyxpprAPvDGRzXmBKwCJBgxM4NfrQDBN",
+    "name": "Executive Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "anomaly",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGEXE.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "BGUNQ",
+    "mint": "BUtLhi4ohcuYiFooWhZyWxQXKceZLCLNS3BHGXnmnhqM",
+    "name": "Unique Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "uncommon",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGUNQ.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "BGOF",
+    "mint": "5LkYStW5K4dPkYDzMFw5smUZ3qNJ8v1fG4gwbHbDfNV2",
+    "name": "Officer's Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "rare",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGOF.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "VIP",
+    "mint": "CVy9zWnF7y15FeqEvV3ZsMdnMDG25na3NWHzx8xQvcG2",
+    "name": "VIP",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "legendary",
+    "class": "license",
+    "image": "https://storage.googleapis.com/nft-assets/items/VIP.png",
+    "description": "Closer access to station hub through the VIP entry. VIP access to events."
+  },
+  {
+    "symbol": "CMPAS",
+    "mint": "H1wrPe2TgmCV1yS8NeVq7C4qPLxcioRWFFerQAfzQUfM",
+    "name": "Council Meta-PAS",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "anomaly",
+    "class": "license",
+    "image": "https://storage.googleapis.com/nft-assets/items/CMPAS.png",
+    "description": "Activates all current and future permits, licenses and passports."
+  },
+  {
+    "symbol": "BGPR",
+    "mint": "B9xkxYMfv1TuPu2BFRuGNcd9XqX8YTCvdrG9ozAE3a9d",
+    "name": "Principal's Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "uncommon",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGPR.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "BGSUP",
+    "mint": "FmWTV4W1KfM5gix2oADmzRJu4T1wCUoCnLqRMRwP7NrF",
+    "name": "Superior's Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "epic",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGSUP.png",
+    "description": "Activates access to future perks and events. Rewarded to those who participated in the ReBirth event."
+  },
+  {
+    "symbol": "MPAS",
+    "mint": "6hSPiSuZiD9k6wzdJWMxZcj9bQUPDBu7pQ6Zwb4imXYs",
+    "name": "Faction Meta-PAS",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "epic",
+    "class": "license",
+    "image": "https://storage.googleapis.com/nft-assets/items/MPAS.png",
+    "description": "Activates all permits and licenses for one faction."
+  },
+  {
+    "symbol": "SSB1",
+    "mint": "C5HkVYzVLjdVSgJKT1cfvPgwMvyoGwC49RivNW5e1bmN",
+    "name": "Start Sequence Badge - Tier 1",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "common",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/SSB1.jpg",
+    "description": "A commemorative badge symbolizing participation in Star Atlas Start Sequence Phase 2 December through January 2023."
+  },
+  {
+    "symbol": "SSB0",
+    "mint": "2f2UeUs5kTXTEVMA65t3i7F6sSSkcaEUEKdnWZiZsroq",
+    "name": "Start Sequence Badge - Tier 0",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "common",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/SSB0.jpg",
+    "description": "A commemorative badge symbolizing participation in Star Atlas Start Sequence Phase 2 December through January 2023."
+  },
+  {
+    "symbol": "SSB3",
+    "mint": "CHhaMX8D2ZQZSAhGcoQjzxHyRT9gDAAVJcMdLxgKih2a",
+    "name": "Start Sequence Badge - Tier 3",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "rare",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/SSB3.jpg",
+    "description": "A commemorative badge symbolizing participation in Star Atlas Start Sequence Phase 2 December through January 2023."
+  },
+  {
+    "symbol": "SSB2",
+    "mint": "DJ2gBp5WSc9rWrsdHiDs9UAwaQTuCT6bsESCrgWMKNxe",
+    "name": "Start Sequence Badge - Tier 2",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "uncommon",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/SSB2.jpg",
+    "description": "A commemorative badge symbolizing participation in Star Atlas Start Sequence Phase 2 December through January 2023."
+  },
+  {
+    "symbol": "BGBREW",
+    "mint": "BREWN24ym1AGwWxTzuVVth8W2a9fkQkJYCiJXWh349uC",
+    "name": "Brew Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "uncommon",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/BGBREW-ROwt6uUVuV3Eex9h.png",
+    "description": "Activates access to future perks and events. A unique badge that proves one’s participation during the first Star Atlas Community Week in February 2024."
+  },
+  {
+    "symbol": "HONEY",
+    "mint": "HoNYeNCD6WidPRYgsrgjfRjUJodPWU4yNG2HBawGi3Ht",
+    "name": "Honeyland Explorer Badge",
+    "itemType": "access",
+    "category": "access",
+    "rarity": "common",
+    "class": "badge",
+    "image": "https://storage.googleapis.com/nft-assets/items/HONEY.jpg",
+    "description": "Star Atlas exclusive Honeyland badge, a game item for usage in Honeyland. https://honey.land"
+  }
+]

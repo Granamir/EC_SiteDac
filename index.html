@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Item Star Atlas</title>
+    <title>Movimentações de NFTs</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,39 +11,135 @@
             color: #ffffff;
             margin: 0;
             padding: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
-        h1 {
-            text-align: center;
-            margin: 20px 0;
+        .header {
+            height: 100px;
+            width: 100%;
+            background-color: #191820;
+            display: flex;
+            align-items: center;
+            justify-content:space-between;
+            padding: 0 50px;
+            box-sizing: border-box;
+            border-bottom: 4px solid #ff904c;
+        }
+
+        .logo {
+        width: 200px; /* Ajuste o valor para o tamanho desejado */
+        height: auto; /* Garante que a proporção seja mantida */
+        max-width: none; /* Remove qualquer limitação */
+        max-height: none; /* Remove qualquer limitação */
+        object-fit: contain; /* Ajuste opcional para garantir que a imagem caiba no espaço */
+    }
+
+
+
+        .header .title1 {
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: bold;
+        text-align: left;
+        margin-left: 100;
+    }
+
+        .title {
             color: #ffffff;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+            flex-grow: 1;
+            margin-right: 150px;
         }
 
-        .container {
-            margin: 0 auto;
+        .main-container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+        }
+
+        .menu {
+            width: 250px;
+            background-color: #191820;
             padding: 20px;
-            max-width: 1200px;
+            box-sizing: border-box;
+            border: 4px solid #ff904c;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .menu button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #1e1d25;
+            border: none;
+            color: #ffffff;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+        }
+
+        .menu button:hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+            box-shadow: 0px 4px 8px #ff904c;
+            z-index: 1;
+            position: relative;
+        }
+
+        .tables-container {
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
         }
 
         table {
-            width: 100%;
+            flex: 1;
+            min-width: 400px;
+            max-width: calc(50% - 10px);
             border-collapse: collapse;
-            margin-bottom: 20px;
+            border: 4px solid #ff904c;
+            background-color: #131319;
+        }
+        #transactionsTable td.status {
+            text-align: center; /* Centraliza horizontalmente */
+            vertical-align: middle; /* Centraliza verticalmente */
+            padding: 60px; /* Ajuste do espaçamento interno */
+        }
+
+        #transactionsTable td.status img {
+            display: block; /* Garante que a imagem seja tratada como um elemento de bloco */
+            margin: 0 auto; /* Centraliza horizontalmente dentro do bloco */
         }
 
         th, td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #25252a;
+            padding: 5px; /* Espaçamento interno */
+            line-height: 0,5; /* Altura da linha, ajustável */
+            height: 10px; /* Altura mínima opcional */
         }
+
 
         th {
             background-color: #191820;
             color: #ffffff;
+            border-bottom: 1px solid #616069;
         }
 
         tr:nth-child(even) {
-            background-color: #131319;
+            background-color: #31313a;
         }
 
         tr:nth-child(odd) {
@@ -51,77 +147,146 @@
         }
 
         .group-header {
-            background-color: #191820;
-            color: #ffffff;
+            background: linear-gradient(45deg, #ff904c, #191820); /* Degradê com duas cores */
+            color: #ffffff; /* Cor do texto */
             font-weight: bold;
             text-align: left;
+            text-transform: uppercase;
+            border-bottom: 1px solid #616069;
+            line-height: 10px;
         }
 
-        img {
-            max-width: 100px;
-            height: auto;
-            display: block;
-        }
 
         .gold-text {
             font-weight: bold;
-            color: #ffd700; /* Cor de ouro */
+            color: #ffd700;
+        }
+
+        img {
+            max-width: 50px;
+            max-height: 50px;
+            display: block;
+        }
+
+        tbody tr:not(.group-header):hover {
+            transform: scale(1.02);
+            transition: transform 0.2s ease-in-out;
+            box-shadow: 0px 4px 8px #ff904c;
+            z-index: 1;
+            position: relative;
+        }
+
+        thead tr:hover,
+        .group-header:hover {
+            transform: none;
+            box-shadow: none;
+        }
+
+        .scrollable {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .center-text {
+            text-align: center;
+        }
+
+        .right-align {
+            text-align: right;
         }
     </style>
 </head>
 <body>
-    <h1>LISTA DE ITEM STAR ATLAS</h1>
-    <div class="container">
-        <table id="itemTable">
-            <thead>
-                <tr>
-                    <th>Nome</th>
-                    <th>Última Compra</th>
-                    <th>Última Venda</th>
-                    <th>Preço Médio</th>
-                    <th>Categoria</th>
-                    <th>Classe</th>
-                    <th>Imagem</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Dados serão carregados dinamicamente -->
-            </tbody>
-        </table>
+    <div class="header">
+        <img src="img/Logo EC.png" alt="Logo" class="logo">
+        <h1 class="title">MOVIMENTAÇÕES DE NFTS</h1>
+        
+    </div>
+
+    <div class="main-container">
+        <div class="menu">
+            <button>INÍCIO</button>
+            <button>ITENS DATA</button>
+            <button>PATRIMÔNIO</button>
+            <button>OPERACIONAL</button>
+            <button>TOKENS</button>
+            <button>MY WALLET</button>
+        </div>
+
+        <div class="tables-container">
+            <table id="nftsTable">
+                <thead>
+                    <tr>
+                        <th colspan="7" style="text-align: center;">NFTS / VALORES</th>
+                    </tr>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Última Compra</th>
+                        <th>Última Venda</th>
+                        <th>Preço Médio</th>
+                        <th>Categoria</th>
+                        <th>Classe</th>
+                        <th>Imagem</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dados serão carregados dinamicamente -->
+                </tbody>
+            </table>
+
+            <table id="transactionsTable">
+                <thead>
+                    <tr>
+                        <th colspan="6" style="text-align: center;">ÚLTIMAS NEGOCIAÇÕES</th>
+                    </tr>
+                    <tr>
+                        <th>Status</th>
+                        <th>Nome</th>
+                        <th class="center-text">Negócio</th>
+                        <th class="center-text">Quant.</th>
+                        <th class="right-align">Valor Venda</th>
+                        <th class="right-align">Valor Compra</th>
+                    </tr>
+                </thead>
+                <tbody class="scrollable">
+                    <!-- Dados serão carregados dinamicamente -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        async function fetchAndDisplayData() {
+        async function fetchAndDisplayNFTs() {
             try {
                 const response = await fetch('Related_Data.json');
                 if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
                 const data = await response.json();
 
-                const tableBody = document.getElementById('itemTable').querySelector('tbody');
-                tableBody.innerHTML = '';
+                const nftsTableBody = document.getElementById('nftsTable').querySelector('tbody');
+                nftsTableBody.innerHTML = '';
 
-                // Agrupa os dados por "category"
                 const groupedData = data.reduce((groups, item) => {
-                    const category = item.category || 'Desconhecido';
-                    if (!groups[category]) {
-                        groups[category] = [];
-                    }
-                    groups[category].push(item);
+                    const itemType = item.itemType || 'Desconhecido';
+                    if (!groups[itemType]) groups[itemType] = [];
+                    groups[itemType].push(item);
                     return groups;
                 }, {});
 
-                // Renderiza os dados agrupados
-                for (const [category, items] of Object.entries(groupedData)) {
-                    // Adiciona um cabeçalho para o grupo
+                for (const [itemType, items] of Object.entries(groupedData)) {
                     const groupRow = document.createElement('tr');
                     groupRow.classList.add('group-header');
                     const groupCell = document.createElement('td');
-                    groupCell.colSpan = 7; // Mesma quantidade de colunas da tabela
-                    groupCell.textContent = category;
+                    groupCell.colSpan = 7;
+                    groupCell.textContent = itemType;
                     groupRow.appendChild(groupCell);
-                    tableBody.appendChild(groupRow);
+                    nftsTableBody.appendChild(groupRow);
 
-                    // Adiciona os itens do grupo
                     items.forEach(item => {
                         const row = document.createElement('tr');
                         row.innerHTML = `
@@ -133,17 +298,53 @@
                             <td>${item.class || '-'}</td>
                             <td><img src="${item.image || ''}" alt="${item.name || 'Sem imagem'}"></td>
                         `;
-                        tableBody.appendChild(row);
+                        nftsTableBody.appendChild(row);
                     });
                 }
             } catch (error) {
-                console.error('Erro ao carregar os dados:', error);
+                console.error('Erro ao carregar os dados dos NFTs:', error);
             }
         }
 
-        // Atualiza os dados automaticamente a cada 10 segundos
-        setInterval(fetchAndDisplayData, 10000);
-        fetchAndDisplayData();
+        async function fetchAndDisplayTransactions() {
+            try {
+                const response = await fetch('reg_mint_Ent.json');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
+
+                const transactionsTableBody = document.getElementById('transactionsTable').querySelector('tbody');
+                transactionsTableBody.innerHTML = '';
+
+                const recentData = data.slice(-25).reverse();
+
+                recentData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="status">
+                <img src="img/${item.tipoNegociacao === 'Venda' ? 'Venda.png' : 'Compra.png'}" 
+                     alt="${item.tipoNegociacao}" 
+                     style="width: 30px; height: 30px;">
+                            </td>
+                            <td>${item.name || '-'}</td>
+                            <td class="center-text">${item.tipoNegociacao || '-'}</td>
+                            <td class="center-text">${item.mintAmount || '-'}</td>
+                            <td class="right-align">${item.tipoNegociacao === 'Venda' ? item.UltimaVenda || '-' : '-'}</td>
+                            <td class="right-align">${item.tipoNegociacao === 'Compra' ? item.UltimaCompra || '-' : '-'}</td>
+                    `;
+                    transactionsTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os dados das transações:', error);
+            }
+        }
+
+        setInterval(() => {
+            fetchAndDisplayNFTs();
+            fetchAndDisplayTransactions();
+        }, 10000);
+
+        fetchAndDisplayNFTs();
+        fetchAndDisplayTransactions();
     </script>
 </body>
 </html>

@@ -4,26 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movimentações de NFTs</title>
-    <style>
+</head>
+<body>
+    <h1>Página Inicial</h1>
 
-// index.js
+    <!-- Inclusão do arquivo index.js -->
+    <script src="./index.js"></script>
+    <script>
+        // Chama a função initApp definida no index.js
+        document.addEventListener('DOMContentLoaded', () => {
+            initApp();
+        });
+    </script>
+</body>
+</html>
 
-function initApp() {
-    console.log('index.js carregado e função initApp executada!');
-    // Adicione aqui qualquer lógica necessária para inicializar a aplicação
-    fetchAndDisplayNFTs();
-    fetchAndDisplayTransactions();
-}
-
-async function fetchAndDisplayNFTs() {
-    console.log('Fetching NFTs data...');
-    // Sua lógica para carregar os NFTs
-}
-
-async function fetchAndDisplayTransactions() {
-    console.log('Fetching Transactions data...');
-    // Sua lógica para carregar as transações
-}
 
 
 

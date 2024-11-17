@@ -367,6 +367,21 @@ async function fetchAndDisplayTransactions() {
 }
 
 
+<script>
+    // Função para atualizar a página a cada 30 segundos
+    function autoRefreshPage() {
+        console.log('A página será atualizada em 30 segundos...');
+        setInterval(() => {
+            console.log('Atualizando a página...');
+            location.reload(); // Recarrega a página
+        }, 30000); // 30.000 ms = 30 segundos
+    }
+
+    // Inicia o processo de autoatualização ao carregar a página
+    autoRefreshPage();
+</script>
+
+
         setInterval(() => {
             fetchAndDisplayNFTs();
             fetchAndDisplayTransactions();

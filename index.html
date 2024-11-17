@@ -345,7 +345,26 @@
                 }
             }
 
+// index.js
 
+function executeIndexJS() {
+    console.log('index.js foi carregado e está sendo executado!');
+
+    // Adicione aqui as funções ou lógica que devem ser executadas
+    fetchAndDisplayNFTs();
+    fetchAndDisplayTransactions();
+}
+
+// Outras funções auxiliares podem estar aqui
+async function fetchAndDisplayNFTs() {
+    console.log('Fetching NFTs data...');
+    // Sua lógica de fetch para NFTs
+}
+
+async function fetchAndDisplayTransactions() {
+    console.log('Fetching Transactions data...');
+    // Sua lógica de fetch para Transações
+}
 
 
         setInterval(() => {

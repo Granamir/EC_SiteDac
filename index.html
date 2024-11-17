@@ -5,6 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movimentações de NFTs</title>
     <style>
+
+// index.js
+
+function initApp() {
+    console.log('index.js carregado e função initApp executada!');
+    // Adicione aqui qualquer lógica necessária para inicializar a aplicação
+    fetchAndDisplayNFTs();
+    fetchAndDisplayTransactions();
+}
+
+async function fetchAndDisplayNFTs() {
+    console.log('Fetching NFTs data...');
+    // Sua lógica para carregar os NFTs
+}
+
+async function fetchAndDisplayTransactions() {
+    console.log('Fetching Transactions data...');
+    // Sua lógica para carregar as transações
+}
+
+
+
+
         body {
             font-family: Arial, sans-serif;
             background-color: #0e0e10;
@@ -109,7 +132,7 @@
 
         /* Estilo para a tabela de NFTs */
         #nftsTable {
-            width: 1000px; /* Largura fixa */
+            width: 1100px; /* Largura fixa */
             border-collapse: collapse; /* Bordas compactadas */
             table-layout: fixed; /* Colunas com largura fixa */
         }
@@ -330,7 +353,7 @@
                                     alt="${item.tipoNegociacao}" 
                                     style="width: 20px; height: 20px;">
                             </td>
-                            <td style="width: 200px; font-size: 12px;">${item.name || '-'}</td>
+                            <td style="width: 100px; font-size: 12px;">${item.name || '-'}</td>
                             <td style="width: 80px; font-size: 12px;" class="center-text">${item.tipoNegociacao || '-'}</td>
                             <td style="width: 80px; font-size: 12px;" class="center-text">${item.mintAmount || '-'}</td>
                             <td style="width: 100px; font-size: 12px;" class="right-align">

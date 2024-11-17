@@ -73,7 +73,7 @@ async function processMintData() {
         // Inicia o script de agendamento em segundo plano
         exec('node ./Save_Agendamento.js', { detached: true, stdio: 'ignore' }, (error) => {
             if (error) {
-                console.error(`Erro ao iniciar o script de agendamento: ${error.message}`);
+                console.error(Erro ao iniciar o script de agendamento: ${error.message});
             } else {
                 console.log('Script de agendamento "Save_Agendamento.js" iniciado em segundo plano.');
             }

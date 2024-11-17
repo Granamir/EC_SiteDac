@@ -109,14 +109,14 @@
 
         /* Estilo para a tabela de NFTs */
         #nftsTable {
-            width: 1050px; /* Largura fixa */
+            width: 1000px; /* Largura fixa */
             border-collapse: collapse; /* Bordas compactadas */
             table-layout: fixed; /* Colunas com largura fixa */
         }
 
         /* Estilo para a tabela de Últimas Negociações */
         #transactionsTable {
-            width: 550px; /* Largura fixa */
+            width: 500px; /* Largura fixa */
             border-collapse: collapse; /* Bordas compactadas */
             table-layout: fixed; /* Colunas com largura fixa */
             text-align: center;
@@ -323,11 +323,12 @@
 
                     recentData.forEach(item => {
                         const row = document.createElement('tr');
+                        row.style.height = '20px'; // Altura fixa de cada linha
                         row.innerHTML = `
                             <td style="width: 100px; text-align: center; vertical-align: middle;">
                                 <img src="img/${item.tipoNegociacao === 'Venda' ? 'Venda.png' : 'Compra.png'}" 
                                     alt="${item.tipoNegociacao}" 
-                                    style="width: 30px; height: 30px;">
+                                    style="width: 20px; height: 20px;">
                             </td>
                             <td style="width: 200px; font-size: 12px;">${item.name || '-'}</td>
                             <td style="width: 80px; font-size: 12px;" class="center-text">${item.tipoNegociacao || '-'}</td>

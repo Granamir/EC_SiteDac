@@ -1,29 +1,33 @@
-const fs = require('fs').promises;
-const fsSync = require('fs');
-
-// Arquivos principais e secundários
-const mainFile = 'Data_Interface.json';
-const secondaryFiles = ['resource.json', 'ship.json', 'structure.json', 'crew.json'];
+// Arquivos principais e secundários simulados no localStorage
+const mainFileKey = 'Data_Interface'; // Chave para o arquivo principal no localStorage
+const secondaryFilesKeys = ['resource', 'ship', 'structure', 'crew']; // Chaves para os arquivos secundários no localStorage
 
 // Função principal para carregar e relacionar os dados
 async function relateJsonData() {
     try {
-        // Carrega o arquivo principal
-        const mainRawData = await fs.readFile(mainFile, 'utf-8');
-        const mainData = JSON.parse(mainRawData);
+        console.log('Iniciando o relacionamento de dados...');
 
+        // Carrega o arquivo principal do localStorage
+        const mainRawData = localStorage.getItem(mainFileKey);
+        if (!mainRawData) {
+            console.error(`Arquivo principal "${mainFileKey}" não encontrado no localStorage.`);
+            return;
+        }
+
+        const mainData = JSON.parse(mainRawData);
         console.log(`Registros carregados do arquivo principal: ${mainData.length}`);
 
         // Cria um mapa com base no mintAddress do arquivo principal
         const mainDataMap = new Map(mainData.map(item => [item.mintAddress, { ...item }]));
 
         // Processa cada arquivo secundário
-        for (const file of secondaryFiles) {
+        for (const key of secondaryFilesKeys) {
             try {
-                const secondaryRawData = await fs.readFile(file, 'utf-8');
-                const secondaryData = JSON.parse(secondaryRawData);
+                const response = await fetch(`${key}.json?t=${new Date().getTime()}`); // Adiciona parâmetro para evitar cache
+                if (!response.ok) throw new Error(`Erro HTTP! status: ${response.status}`);
 
-                console.log(`Registros carregados de ${file}: ${secondaryData.length}`);
+                const secondaryData = await response.json();
+                console.log(`Registros carregados de ${key}.json: ${secondaryData.length}`);
 
                 // Relaciona os dados do arquivo secundário com os registros do arquivo principal
                 secondaryData.forEach(entry => {
@@ -43,29 +47,37 @@ async function relateJsonData() {
                     }
                 });
             } catch (error) {
-                console.error(`Erro ao processar ${file}:`, error.message);
+                console.error(`Erro ao processar ${key}.json:`, error.message);
             }
         }
 
         // Converte o mapa atualizado para um array
         const relatedData = Array.from(mainDataMap.values());
 
-        // Salva o arquivo de saída com os dados relacionados
-        const outputFileName = 'Related_Data.json';
-        await fs.writeFile(outputFileName, JSON.stringify(relatedData, null, 2), 'utf-8');
-        console.log(`Dados relacionados salvos em "${outputFileName}".`);
+        // Salva os dados relacionados no localStorage
+        const outputFileKey = 'Related_Data';
+        localStorage.setItem(outputFileKey, JSON.stringify(relatedData, null, 2));
+        console.log(`Dados relacionados salvos no localStorage com a chave "${outputFileKey}".`);
     } catch (error) {
         console.error('Erro ao relacionar os dados:', error.message);
     }
 }
 
-// Monitoramento de alterações no arquivo principal
-fsSync.watchFile(mainFile, (curr, prev) => {
-    if (curr.mtime !== prev.mtime) {
-        console.log(`"${mainFile}" atualizado. Executando o processamento de relacionamento...`);
-        relateJsonData();
-    }
-});
+// Função para monitorar alterações no arquivo principal
+function monitorMainFileChanges() {
+    console.log(`Monitorando alterações no arquivo principal "${mainFileKey}"...`);
+    let previousData = localStorage.getItem(mainFileKey);
+
+    setInterval(() => {
+        const currentData = localStorage.getItem(mainFileKey);
+        if (currentData !== previousData) {
+            console.log(`"${mainFileKey}" atualizado. Executando o processamento de relacionamento...`);
+            previousData = currentData;
+            relateJsonData();
+        }
+    }, 5000); // Verifica alterações a cada 5 segundos
+}
 
 // Executa a função inicial ao carregar o script
 relateJsonData();
+monitorMainFileChanges();

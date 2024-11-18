@@ -232,5 +232,4 @@ async function saveConsolidatedResults() {
     } catch (error) {
         console.error('Erro no fluxo principal:', error);
     }
-
 })();

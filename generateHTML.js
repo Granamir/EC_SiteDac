@@ -1,49 +1,48 @@
-const fs = require('fs').promises;
-const path = 'reg_mint_Ent.json';  // Caminho para o arquivo JSON de dados
+// Simulação do caminho para o JSON armazenado no localStorage
+const jsonKey = 'reg_mint_Ent'; // Chave no localStorage onde os dados estão armazenados
 
-// Função para gerar o HTML da tabela
+// Função para gerar a tabela HTML diretamente no DOM
 async function generateHTMLTable() {
     try {
-        // Lê o arquivo JSON com os registros
-        const data = await fs.readFile(path, 'utf-8');
-        const records = JSON.parse(data);
+        // Recupera os dados do localStorage
+        const rawData = localStorage.getItem(jsonKey);
+        if (!rawData) {
+            console.error('Nenhum dado encontrado no localStorage. Certifique-se de que "reg_mint_Ent" existe.');
+            return;
+        }
 
-        // Pega os últimos 10 registros
+        const records = JSON.parse(rawData);
+
+        // Pega os últimos 50 registros e inverte a ordem
         const lastTenRecords = records.slice(-50).reverse();
 
-        // Define a estrutura HTML com a tabela
+        // Seleciona ou cria o elemento da tabela no DOM
+        let tableContainer = document.getElementById('table-container');
+        if (!tableContainer) {
+            tableContainer = document.createElement('div');
+            tableContainer.id = 'table-container';
+            document.body.appendChild(tableContainer);
+        }
+
+        // Define a estrutura da tabela
         let htmlContent = `
-            <!DOCTYPE html>
-            <html lang="pt-BR">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="refresh" content="5"> <!-- Atualiza a cada 5 segundos -->
-                <title>Últimos Registros</title>
-                <style>
-                    body { font-family: Arial, sans-serif; margin: 20px; }
-                    table { width: 100%; border-collapse: collapse; }
-                    th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
-                    th { background-color: #f2f2f2; }
-                </style>
-            </head>
-            <body>
-                <h2>Últimos 10 Registros</h2>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>mintAddress</th>
-                            <th>tipoNegociação</th>
-                            <th>blockTime</th>
-                            <th>mintAmount</th>
-                            <th>TotalAtlasTransferred</th>
-                            <th>UltimaVenda</th>
-                            <th>UltimaCompra</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+            <h2>Últimos 10 Registros</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>mintAddress</th>
+                        <th>tipoNegociação</th>
+                        <th>blockTime</th>
+                        <th>mintAmount</th>
+                        <th>TotalAtlasTransferred</th>
+                        <th>UltimaVenda</th>
+                        <th>UltimaCompra</th>
+                    </tr>
+                </thead>
+                <tbody>
         `;
 
-        // Popula a tabela com os últimos 10 registros
+        // Popula a tabela com os últimos 50 registros
         for (const record of lastTenRecords) {
             htmlContent += `
                 <tr>
@@ -59,20 +58,43 @@ async function generateHTMLTable() {
         }
 
         htmlContent += `
-                    </tbody>
-                </table>
-            </body>
-            </html>
+                </tbody>
+            </table>
         `;
 
-        // Escreve o conteúdo no arquivo HTML
-        await fs.writeFile('index.html', htmlContent, 'utf-8');
-        console.log('Arquivo index.html gerado com sucesso.');
+        // Aplica o conteúdo HTML ao container
+        tableContainer.innerHTML = htmlContent;
+
+        console.log('Tabela HTML gerada com sucesso.');
 
     } catch (error) {
-        console.error('Erro ao gerar o arquivo HTML:', error);
+        console.error('Erro ao gerar a tabela HTML:', error);
     }
 }
 
-// Executa a função para gerar o HTML
-generateHTMLTable();
+// Configura o estilo básico para a tabela no DOM
+function setupStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        table { width: 100%; border-collapse: collapse; }
+        th, td { padding: 8px; text-align: left; border: 1px solid #ddd; }
+        th { background-color: #f2f2f2; }
+    `;
+    document.head.appendChild(style);
+}
+
+// Função principal para inicializar a página
+function initPage() {
+    setupStyles();
+    generateHTMLTable();
+
+    // Configura atualização automática a cada 5 segundos
+    setInterval(() => {
+        console.log('Atualizando tabela...');
+        generateHTMLTable();
+    }, 5000); // Atualiza a cada 5 segundos
+}
+
+// Inicializa a página ao carregar o script
+initPage();

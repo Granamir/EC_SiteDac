@@ -25,6 +25,8 @@ function saveFileAsDownload(filename, data) {
 }
 
 // Conexão Solana
+const solanaWeb3 = window.solanaWeb3; // Certifique-se de que a biblioteca foi importada
+
 const connection = new solanaWeb3.Connection(
     'https://twilight-cool-fog.solana-mainnet.quiknode.pro/682757799bd5143d24a1369e9546e9bf88554f93',
     {
@@ -33,29 +35,57 @@ const connection = new solanaWeb3.Connection(
     }
 );
 
-// Variáveis constantes e globais
-const ATLAS_MINT_ADDRESS = 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx';
 const TARGET_PROGRAM_ID = 'traderDnaR5w6Tcoi3NFm53i48FTDNbGjBSZwWXDRrg';
 const consolidatedResults = [];
 let TARGET_MINT_ADDRESSES = [];
-let relatedDataMap = {}; // Mapa para armazenar "mint" -> "name"
-let batchCounter = 0;
+let relatedDataMap = {};
 
-// Função para carregar endereços de Itens_list.json
 async function loadTargetMintAddressesFromFile() {
     try {
-        const data = await fs.readFile('Itens_list.json', 'utf-8');
-        const jsonData = JSON.parse(data);
-        if (jsonData.TARGET_MINT_ADDRESSES) {
-            TARGET_MINT_ADDRESSES = jsonData.TARGET_MINT_ADDRESSES;
-            console.log('TARGET_MINT_ADDRESSES carregado:', TARGET_MINT_ADDRESSES);
-        } else {
-            console.log('TARGET_MINT_ADDRESSES não encontrado no arquivo Itens_list.json.');
-        }
+        const response = await fetch('Itens_list.json');
+        if (!response.ok) throw new Error(`Erro ao carregar Itens_list.json: ${response.statusText}`);
+        const jsonData = await response.json();
+        TARGET_MINT_ADDRESSES = jsonData.TARGET_MINT_ADDRESSES || [];
+        console.log('TARGET_MINT_ADDRESSES carregado:', TARGET_MINT_ADDRESSES);
     } catch (error) {
-        console.error('Erro ao ler o arquivo Itens_list.json:', error);
+        console.error('Erro ao carregar Itens_list.json:', error);
     }
 }
+
+async function loadRelatedData() {
+    const files = ['crew.json', 'resource.json', 'ship.json', 'structure.json'];
+    try {
+        const allData = await Promise.all(
+            files.map(async (file) => {
+                const response = await fetch(`${file}?t=${new Date().getTime()}`);
+                if (!response.ok) throw new Error(`Erro ao carregar ${file}: ${response.statusText}`);
+                return await response.json();
+            })
+        );
+
+        relatedDataMap = allData.flat().reduce((map, item) => {
+            const normalizedMint = (item.mint || '').trim().toLowerCase();
+            map[normalizedMint] = item.name || 'Nome Não Encontrado';
+            return map;
+        }, {});
+
+        console.log('Mapa relatedDataMap criado com sucesso.');
+    } catch (error) {
+        console.error('Erro ao carregar os arquivos JSON:', error);
+    }
+}
+
+function saveFileAsDownload(filename, data) {
+    const blob = new Blob([data], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+// Adapte outras funções similares para usar fetch e salvar como download
 
 // Função para carregar os dados combinados dos arquivos JSON
 async function loadRelatedData() {
@@ -189,6 +219,34 @@ async function getTransactionsByMintAddress(mintAddress) {
     }
 }
 
+async function fetchAndDisplayTransactions() {
+    try {
+        const response = await fetch(`reg_mint_Ent.json?t=${new Date().getTime()}`); // Adicionado o parâmetro
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+        const data = await response.json();
+        console.log('Dados carregados das transações:', data);
+
+        const transactionsTableBody = document.getElementById('transactionsTable').querySelector('tbody');
+        transactionsTableBody.innerHTML = ''; // Limpa a tabela antes de atualizar
+
+        const recentData = data.slice(-25).reverse();
+        recentData.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><img src="img/${item.tipoNegociacao === 'Venda' ? 'Venda.png' : 'Compra.png'}"></td>
+                <td>${item.name || '-'}</td>
+                <td>${item.tipoNegociacao || '-'}</td>
+                <td>${item.mintAmount || '-'}</td>
+                <td>${item.tipoNegociacao === 'Venda' ? item.UltimaVenda || '-' : item.UltimaCompra || '-'}</td>
+            `;
+            transactionsTableBody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Erro ao carregar e processar dados das transações:', error);
+    }
+}
+
 // Processa lotes de transações
 async function fetchTransactionsInBatches() {
     while (true) {
@@ -216,37 +274,21 @@ async function fetchTransactionsInBatches() {
 
 // Função para salvar resultados no arquivo consolidado
 async function saveConsolidatedResults() {
-    const consolidatedFileName = 'reg_mint_Ent.json';
     try {
-        let existingData = [];
-        if (fsSync.existsSync(consolidatedFileName)) {
-            const data = await fs.readFile(consolidatedFileName, 'utf-8');
-            existingData = data.trim() ? JSON.parse(data) : [];
-        }
-
-        const newData = consolidatedResults.filter(
-            newRecord => !existingData.some(existingRecord => existingRecord.signature === newRecord.signature)
-        );
-
-        // Adiciona o campo "name" para cada novo registro
-        newData.forEach(record => {
-            const normalizedMint = record.mintAddress.trim().toLowerCase(); // Normaliza o campo
+        const consolidatedFileName = 'reg_mint_Ent.json';
+        const newData = consolidatedResults.map(record => {
+            const normalizedMint = record.mintAddress.trim().toLowerCase();
             record.name = relatedDataMap[normalizedMint] || 'Nome Não Encontrado';
-
-            console.log(`Adicionado name: ${record.name} para mintAddress: ${record.mintAddress}`);
+            return record;
         });
 
-        existingData = existingData.concat(newData);
-
-        await fs.writeFile(consolidatedFileName, JSON.stringify(existingData, null, 2), 'utf-8');
-        console.log(`Resultados parciais salvos em "${consolidatedFileName}".`);
-
+        saveFileAsDownload(consolidatedFileName, JSON.stringify(newData, null, 2));
         consolidatedResults.length = 0; // Limpa os resultados consolidados após salvar
+        console.log(`Resultados salvos para download: "${consolidatedFileName}"`);
     } catch (error) {
-        console.error(`Erro ao salvar os dados no arquivo consolidado: ${error.message}`);
+        console.error('Erro ao salvar os dados consolidados:', error);
     }
 }
-
 // Fluxo principal
 (async () => {
     try {

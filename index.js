@@ -1,13 +1,37 @@
-const solanaWeb3 = require('@solana/web3.js');
-const fs = require('fs').promises;
-const fsSync = require('fs');
-const { exec } = require('child_process');
+// Importando biblioteca Solana Web3 no navegador (certifique-se de carregar o script em seu HTML)
+const solanaWeb3 = window.solanaWeb3; // Supondo que a biblioteca seja carregada separadamente via CDN
+
+// Substituir leitura de arquivos por fetch e manipulação de JSON
+async function readFile(filePath) {
+    try {
+        const response = await fetch(filePath);
+        if (!response.ok) throw new Error(`Erro ao carregar arquivo ${filePath}: ${response.statusText}`);
+        return await response.text();
+    } catch (error) {
+        console.error(`Erro ao ler o arquivo ${filePath}:`, error);
+        return null;
+    }
+}
+
+// Substituir escrita de arquivos com salvamento local (ex.: JSON para download)
+function saveFileAsDownload(filename, data) {
+    const blob = new Blob([data], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
 
 // Conexão Solana
-const connection = new solanaWeb3.Connection('https://twilight-cool-fog.solana-mainnet.quiknode.pro/682757799bd5143d24a1369e9546e9bf88554f93', {
-    commitment: 'finalized',
-    maxSupportedTransactionVersion: 0
-});
+const connection = new solanaWeb3.Connection(
+    'https://twilight-cool-fog.solana-mainnet.quiknode.pro/682757799bd5143d24a1369e9546e9bf88554f93',
+    {
+        commitment: 'finalized',
+        maxSupportedTransactionVersion: 0,
+    }
+);
 
 // Variáveis constantes e globais
 const ATLAS_MINT_ADDRESS = 'ATLASXmbPQxBUYbxPsV97usA3fPQYEqzQBUHgiFCUsXx';

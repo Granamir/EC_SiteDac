@@ -1,11 +1,13 @@
-const fs = require('fs').promises;
-const { exec } = require('child_process');
-
-// Função para carregar e processar os dados do arquivo "reg_mint_ent.json"
+// Função para carregar e processar os dados do localStorage
 async function processMintData() {
     try {
-        // Carrega o conteúdo do arquivo "reg_mint_ent.json"
-        const rawData = await fs.readFile('reg_mint_ent.json', 'utf-8');
+        // Carrega o conteúdo armazenado em "reg_mint_ent" no localStorage
+        const rawData = localStorage.getItem('reg_mint_ent');
+        if (!rawData) {
+            console.error('Nenhum dado encontrado em "reg_mint_ent". Certifique-se de que os dados estão armazenados no localStorage.');
+            return;
+        }
+        
         const transactions = JSON.parse(rawData);
 
         // Objeto para consolidar os dados por "mintAddress"
@@ -13,7 +15,7 @@ async function processMintData() {
 
         transactions.forEach(transaction => {
             const { mintAddress, blockTime, mintAmount, TotalAtlasTransferred, UltimaCompra, UltimaVenda } = transaction;
-            
+
             // Conversão dos valores para formato numérico padrão
             const amount = parseFloat(mintAmount.replace(/\./g, '').replace(',', '.')) || 0;
             const totalTransferred = parseFloat(TotalAtlasTransferred.replace(',', '.')) || 0;
@@ -33,7 +35,7 @@ async function processMintData() {
                 // Acumula os valores de "mintAmount" e "TotalAtlasTransferred"
                 consolidatedData[mintAddress].mintAmount += amount;
                 consolidatedData[mintAddress].TotalAtlasTransferred += totalTransferred;
-                
+
                 // Atualiza "UltimaCompra" e "UltimaVenda" apenas se houver valores não nulos
                 if (ultimaCompraConverted !== 0) {
                     consolidatedData[mintAddress].UltimaCompra = ultimaCompraConverted;
@@ -41,7 +43,7 @@ async function processMintData() {
                 if (ultimaVendaConverted !== 0) {
                     consolidatedData[mintAddress].UltimaVenda = ultimaVendaConverted;
                 }
-                
+
                 // Atualiza "blockTime" com o valor mais recente
                 consolidatedData[mintAddress].blockTime = blockTime;
             }
@@ -66,22 +68,25 @@ async function processMintData() {
             };
         });
 
-        // Salva o conteúdo consolidado em "Media_Price_Mint.json"
-        await fs.writeFile('Media_Price_Mint.json', JSON.stringify(finalData, null, 2), 'utf-8');
-        console.log('Arquivo "Media_Price_Mint.json" criado com sucesso.');
+        // Salva os dados consolidados no localStorage
+        localStorage.setItem('Media_Price_Mint', JSON.stringify(finalData, null, 2));
+        console.log('Dados consolidados salvos em "Media_Price_Mint" no localStorage.');
 
-        // Inicia o script de agendamento em segundo plano
-        exec('node ./Save_Agendamento.js', { detached: true, stdio: 'ignore' }, (error) => {
-            if (error) {
-                console.error(Erro ao iniciar o script de agendamento: ${error.message});
-            } else {
-                console.log('Script de agendamento "Save_Agendamento.js" iniciado em segundo plano.');
-            }
-        }).unref();  // Desassocia o processo para que ele rode em segundo plano
+        // Simula o script de agendamento
+        simulateBackgroundTask();
 
     } catch (error) {
         console.error('Erro ao processar os dados:', error);
     }
+}
+
+// Função para simular o script de agendamento
+function simulateBackgroundTask() {
+    console.log('Simulando execução do script "Save_Agendamento.js" em segundo plano...');
+    // Simulação de alguma lógica de agendamento
+    setTimeout(() => {
+        console.log('Simulação de tarefa de agendamento concluída.');
+    }, 2000);
 }
 
 // Executa o script

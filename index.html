@@ -1,84 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="index.js"></script>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movimentações de NFTs</title>
     <link rel="icon" href="img/Ec.ico" type="image/x-icon">
     <style>
+        /* Estilo geral e tabelas */
         body {
             font-family: Arial, sans-serif;
             background-color: #0e0e10;
             color: #ffffff;
             margin: 0;
             padding: 0;
-            width: 100%;
-            height: 100%;
             display: flex;
             flex-direction: column;
         }
-
         .header {
             height: 100px;
             width: 100%;
             background-color: #191820;
             display: flex;
             align-items: center;
-            justify-content:space-between;
+            justify-content: space-between;
             padding: 0 50px;
             box-sizing: border-box;
             border-bottom: 4px solid #ff904c;
         }
-
         .logo {
-        width: 200px; /* Ajuste o valor para o tamanho desejado */
-        height: auto; /* Garante que a proporção seja mantida */
-        max-width: none; /* Remove qualquer limitação */
-        max-height: none; /* Remove qualquer limitação */
-        object-fit: contain; /* Ajuste opcional para garantir que a imagem caiba no espaço */
-    }
-
-
-
-        .header .title1 {
-        color: #ffffff;
-        font-size: 20px;
-        font-weight: bold;
-        text-align: left;
-        margin-left: 100;
-    }
-
+            width: 200px;
+            height: auto;
+            object-fit: contain;
+        }
         .title {
             color: #ffffff;
             font-size: 24px;
             font-weight: bold;
             text-align: center;
-            flex-grow: 1;
-            margin-right: 150px;
         }
-
         .main-container {
             display: flex;
-            width: 100%;
-            height: 100%;
+            flex-grow: 1;
             overflow: auto;
         }
-
         .menu {
             width: 250px;
             background-color: #191820;
             padding: 20px;
-            box-sizing: border-box;
             border: 4px solid #ff904c;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            margin-top: 20px;
         }
-
         .menu button {
-            width: 100%;
             padding: 10px;
             margin-bottom: 10px;
             background-color: #1e1d25;
@@ -86,127 +59,39 @@
             color: #ffffff;
             font-size: 16px;
             cursor: pointer;
-            text-align: center;
-            transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
-
         .menu button:hover {
             transform: scale(1.02);
-            transition: transform 0.2s ease-in-out;
             box-shadow: 0px 4px 8px #ff904c;
-            text-decoration-color: #ffd700;
-            z-index: 1;
-            position: relative;
         }
-
         .tables-container {
             flex-grow: 1;
+            padding: 20px;
             display: flex;
             flex-wrap: wrap;
             gap: 20px;
-            padding: 20px;
-            box-sizing: border-box;
-            overflow-y: auto;
         }
-
-        /* Estilo para a tabela de NFTs */
-        #nftsTable {
-            width: 1100px; /* Largura fixa */
-            border-collapse: collapse; /* Bordas compactadas */
-            table-layout: fixed; /* Colunas com largura fixa */
+        table {
+            border-collapse: collapse;
+            width: 100%;
         }
-
-        /* Estilo para a tabela de Últimas Negociações */
-        #transactionsTable {
-            width: 500px; /* Largura fixa */
-            border-collapse: collapse; /* Bordas compactadas */
-            table-layout: fixed; /* Colunas com largura fixa */
-            text-align: center;
-            vertical-align: middle; /* Centraliza verticalmente */
-            padding: 5px; /* Espaçamento interno */
-            
-
+        th, td {
+            padding: 8px;
+            border: 1px solid #ddd;
         }
-        #transactionsTable tr {
-            height: auto; /* Permite que as linhas sejam ajustadas ao conteúdo */
-        }
-
-        #transactionsTable td img {
-            display: inline-block; /* Garante que a imagem seja tratada como um bloco */
-            margin: 0 auto; /* Centraliza horizontalmente */
-            max-width: 100%; /* Garante que a imagem não exceda o tamanho da célula */
-            height: auto; /* Mantém as proporções da imagem */
-        }
-
-        
-
         th {
             background-color: #191820;
-            color: #ffffff;
-            border-bottom: 1px solid #616069;
         }
-
         tr:nth-child(even) {
             background-color: #31313a;
         }
-
         tr:nth-child(odd) {
             background-color: #18161e;
         }
-
-        .group-header {
-            background: linear-gradient(45deg, #ff904c, #191820); /* Degradê com duas cores */
-            color: #ffffff; /* Cor do texto */
-            font-weight: bold;
-            text-align: left;
-            text-transform: uppercase;
-            border-bottom: 1px solid #616069;
-            line-height: 10px;
-        }
-
-
-        .gold-text {
-            font-weight: bold;
-            color: #ffd700;
-        }
-
         img {
             max-width: 50px;
             max-height: 50px;
-            display: block;
-        }
-
-        tbody tr:not(.group-header):hover {
-            transform: scale(1.02);
-            transition: transform 0.2s ease-in-out;
-            box-shadow: 0px 4px 8px #ff904c;
-            z-index: 1;
-            position: relative;
-        }
-
-        thead tr:hover,
-        .group-header:hover {
-            transform: none;
-            box-shadow: none;
-        }
-
-        .scrollable {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .center-text {
-            text-align: center;
-        }
-
-        .right-align {
-            text-align: right;
         }
     </style>
 </head>
@@ -214,7 +99,6 @@
     <div class="header">
         <img src="img/Logo EC.png" alt="Logo" class="logo">
         <h1 class="title">MOVIMENTAÇÕES DE NFTS</h1>
-        
     </div>
 
     <div class="main-container">
@@ -231,7 +115,7 @@
             <table id="nftsTable">
                 <thead>
                     <tr>
-                        <th colspan="7" style="text-align: center;">NFTS / VALORES</th>
+                        <th colspan="7">NFTS / VALORES</th>
                     </tr>
                     <tr>
                         <th>Nome</th>
@@ -251,17 +135,17 @@
             <table id="transactionsTable">
                 <thead>
                     <tr>
-                        <th colspan="5" style="text-align: center;">ÚLTIMAS NEGOCIAÇÕES</th>
+                        <th colspan="5">ÚLTIMAS NEGOCIAÇÕES</th>
                     </tr>
                     <tr>
                         <th>Status</th>
                         <th>Nome</th>
                         <th>Negócio</th>
                         <th>Quant.</th>
-                        <th>Preço</th> <!-- Coluna combinada -->
+                        <th>Preço</th>
                     </tr>
                 </thead>
-                <tbody class="scrollable">
+                <tbody>
                     <!-- Dados serão carregados dinamicamente -->
                 </tbody>
             </table>
@@ -287,11 +171,7 @@
 
                 for (const [itemType, items] of Object.entries(groupedData)) {
                     const groupRow = document.createElement('tr');
-                    groupRow.classList.add('group-header');
-                    const groupCell = document.createElement('td');
-                    groupCell.colSpan = 7;
-                    groupCell.textContent = itemType;
-                    groupRow.appendChild(groupCell);
+                    groupRow.innerHTML = `<td colspan="7">${itemType}</td>`;
                     nftsTableBody.appendChild(groupRow);
 
                     items.forEach(item => {
@@ -300,7 +180,7 @@
                             <td>${item.name || '-'}</td>
                             <td>${item.UltimaCompra || '-'}</td>
                             <td>${item.UltimaVenda || '-'}</td>
-                            <td><span class="gold-text">${item.PreçoMedio || '-'}</span></td>
+                            <td>${item.PreçoMedio || '-'}</td>
                             <td>${item.category || '-'}</td>
                             <td>${item.class || '-'}</td>
                             <td><img src="${item.image || ''}" alt="${item.name || 'Sem imagem'}"></td>
@@ -313,51 +193,31 @@
             }
         }
 
-                    async function fetchAndDisplayTransactions() {
-                try {
-                    const response = await fetch('reg_mint_Ent.json');
-                    const data = await response.json();
+        async function fetchAndDisplayTransactions() {
+            try {
+                const response = await fetch('reg_mint_Ent.json');
+                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                const data = await response.json();
 
-                    const transactionsTableBody = document.getElementById('transactionsTable').querySelector('tbody');
-                    transactionsTableBody.innerHTML = ''; // Limpa o conteúdo anterior
+                const transactionsTableBody = document.getElementById('transactionsTable').querySelector('tbody');
+                transactionsTableBody.innerHTML = '';
 
-                    const recentData = data.slice(-25).reverse();
-
-                    recentData.forEach(item => {
-                        const row = document.createElement('tr');
-                        row.style.height = '20px'; // Altura fixa de cada linha
-                        row.innerHTML = `
-                            <td style="width: 100px; text-align: center; vertical-align: middle;">
-                                <img src="img/${item.tipoNegociacao === 'Venda' ? 'Venda.png' : 'Compra.png'}" 
-                                    alt="${item.tipoNegociacao}" 
-                                    style="width: 20px; height: 20px;">
-                            </td>
-                            <td style="width: 100px; font-size: 12px;">${item.name || '-'}</td>
-                            <td style="width: 80px; font-size: 12px;" class="center-text">${item.tipoNegociacao || '-'}</td>
-                            <td style="width: 80px; font-size: 12px;" class="center-text">${item.mintAmount || '-'}</td>
-                            <td style="width: 100px; font-size: 12px;" class="right-align">
-                                ${item.tipoNegociacao === 'Venda' ? `<span style="color: red;">Venda: ${item.UltimaVenda || '-'}</span>` : 
-                                                                    `<span style="color: green;">Compra: ${item.UltimaCompra || '-'}</span>`}
-                            </td>
-                        `;
-                        transactionsTableBody.appendChild(row);
-                    });
-                } catch (error) {
-                    console.error('Erro ao carregar os dados das transações:', error);
-                }
+                const recentData = data.slice(-25).reverse();
+                recentData.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><img src="img/${item.tipoNegociacao === 'Venda' ? 'Venda.png' : 'Compra.png'}"></td>
+                        <td>${item.name || '-'}</td>
+                        <td>${item.tipoNegociacao || '-'}</td>
+                        <td>${item.mintAmount || '-'}</td>
+                        <td>${item.tipoNegociacao === 'Venda' ? item.UltimaVenda || '-' : item.UltimaCompra || '-'}</td>
+                    `;
+                    transactionsTableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('Erro ao carregar os dados das transações:', error);
             }
-
-
-            // index.js
-
-                function executeIndexJS() {
-                    console.log('index.js foi carregado e está sendo executado!');
-
-                    
-                }
-
-
-                
+        }
 
         setInterval(() => {
             fetchAndDisplayNFTs();
@@ -366,10 +226,6 @@
 
         fetchAndDisplayNFTs();
         fetchAndDisplayTransactions();
-
-
-
-        
     </script>
 </body>
 </html>
